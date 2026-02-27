@@ -69,3 +69,25 @@ Run against Chromium:
 ```
 elixir playwright_ex.exs -- --project=chromium
 ```
+
+## Results
+
+```
+npx playwright test --project firefox --project chromium
+
+Running 6 tests using 6 workers
+  1) [firefox] › tests/example.spec.js:28:5 › has custom user agent for worker fetch requests
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "Custom User Agent"
+    Received: "Mozilla/5.0 (X11; Linux x86_64; rv:146.0) Gecko/20100101 Firefox/146.0"
+
+  1 failed
+    [firefox] › tests/example.spec.js:28:5 › has custom user agent for worker fetch requests
+  5 passed (1.9s)
+```
+
+Firefox ignores the custom `User-Agent` set on the browser context when a
+request is made from inside a Web Worker, falling back to the browser's real UA.
+Chromium correctly propagates the custom value.
